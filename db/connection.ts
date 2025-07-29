@@ -1,10 +1,13 @@
 /**
- * Glen AI Agent - Database Connection
- * Handles MongoDB connection and connection management
+ * Database Connection Manager
+ * Handles MongoDB connection using Mongoose with singleton pattern
  */
 
 import mongoose from 'mongoose';
 import { logger } from '../utils/logger';
+
+// Load environment variables
+require('dotenv').config();
 
 class DatabaseConnection {
   private static instance: DatabaseConnection;
@@ -43,10 +46,6 @@ class DatabaseConnection {
         maxPoolSize: 10, // Maintain up to 10 socket connections
         serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
         socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-        bufferMaxEntries: 0, // Disable mongoose buffering
-        bufferCommands: false, // Disable mongoose buffering
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
       };
 
       // Connect to MongoDB

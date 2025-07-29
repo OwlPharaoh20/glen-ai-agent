@@ -285,8 +285,4 @@ LeadSchema.methods = {
 };
 
 // Create and export the model
-export const Lead = mongoose.model<ILead>('Lead', LeadSchema);
-
-// Export types
-export type { ILead };
-export { LeadStatus }; 
+export const Lead = mongoose.model<ILead>('Lead', LeadSchema); 

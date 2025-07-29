@@ -1,6 +1,6 @@
 /**
- * Glen AI Agent - LangChain Agent Setup
- * Handles AI agent initialization, LLM configuration, and tool management
+ * Glen AI Agent - Simplified Version for Testing
+ * Handles AI agent initialization without database connection
  */
 
 import { ChatOpenAI } from '@langchain/openai';
@@ -9,9 +9,8 @@ import { ChatPromptTemplate, HumanMessagePromptTemplate, SystemMessagePromptTemp
 import { DynamicStructuredTool } from '@langchain/core/tools';
 import { systemPrompt } from './system_prompt';
 import { logger } from './utils/logger';
-import { dbConnection } from './db/connection';
 
-export class GlenAgent {
+export class GlenAgentSimple {
   private llm: ChatOpenAI;
   private tools: DynamicStructuredTool[];
   private agent: AgentExecutor;
@@ -22,15 +21,15 @@ export class GlenAgent {
 
   async initialize(): Promise<void> {
     try {
-      logger.info('Initializing Glen AI Agent...');
+      logger.info('Initializing Glen AI Agent (Simple Mode)...');
       
-      // Initialize database connection
-      await dbConnection.connect();
+      // Skip database connection for now
+      logger.info('Skipping database connection for testing...');
       
       this.initializeLLM();
       await this.initializeTools();
       await this.createAgent();
-      logger.info('Glen AI Agent initialized successfully');
+      logger.info('Glen AI Agent initialized successfully (Simple Mode)');
     } catch (error) {
       logger.error('Failed to initialize Glen AI Agent:', error);
       throw error;
@@ -49,6 +48,8 @@ export class GlenAgent {
       temperature: 0.7,
       maxTokens: 2000,
     });
+    
+    logger.info('OpenAI LLM initialized successfully');
   }
 
   private async initializeTools(): Promise<void> {
@@ -74,6 +75,8 @@ export class GlenAgent {
       verbose: process.env.NODE_ENV === 'development',
       maxIterations: 10,
     });
+    
+    logger.info('Agent created successfully');
   }
 
   async executeTask(task: string): Promise<string> {

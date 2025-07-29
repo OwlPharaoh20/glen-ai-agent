@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
 /**
- * Glen AI Agent - Email Marketing Assistant
- * Main CLI interface for the AI agent
+ * Glen AI Agent - Simplified Main for Testing
+ * CLI interface without database connection
  */
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import ora from 'ora';
 import { Command } from 'commander';
-import { GlenAgent } from './agent';
+import { GlenAgentSimple } from './agent-simple';
 import { logger } from './utils/logger';
 
 // Initialize the program
@@ -25,7 +25,7 @@ program
 async function showMainMenu(): Promise<void> {
   console.clear();
   console.log(chalk.blue.bold('🤖 Glen AI Agent - Email Marketing Assistant'));
-  console.log(chalk.gray('Your intelligent email marketing companion\n'));
+  console.log(chalk.gray('Your intelligent email marketing companion (Simple Mode)\n'));
 
   const { action } = await inquirer.prompt([
     {
@@ -116,31 +116,30 @@ async function handleMenuSelection(action: string): Promise<void> {
 
 // Handle send campaign
 async function handleSendCampaign(): Promise<void> {
-  // TODO: Implement campaign sending logic
   console.log(chalk.yellow('📧 Campaign sending feature coming soon...'));
+  console.log(chalk.gray('(Database connection required for full functionality)'));
 }
 
 // Handle lead management
 async function handleManageLeads(): Promise<void> {
-  // TODO: Implement lead management logic
   console.log(chalk.yellow('👥 Lead management feature coming soon...'));
+  console.log(chalk.gray('(Database connection required for full functionality)'));
 }
 
 // Handle copy generation
 async function handleGenerateCopy(): Promise<void> {
-  // TODO: Implement copy generation logic
   console.log(chalk.yellow('✍️ Email copy generation feature coming soon...'));
+  console.log(chalk.gray('(AI tools need to be implemented)'));
 }
 
 // Handle analytics
 async function handleAnalytics(): Promise<void> {
-  // TODO: Implement analytics logic
   console.log(chalk.yellow('📊 Analytics feature coming soon...'));
+  console.log(chalk.gray('(Database connection required for full functionality)'));
 }
 
 // Handle settings
 async function handleSettings(): Promise<void> {
-  // TODO: Implement settings logic
   console.log(chalk.yellow('⚙️ Settings feature coming soon...'));
 }
 
@@ -151,7 +150,7 @@ async function main(): Promise<void> {
     require('dotenv').config();
     
     // Check for required environment variables
-    const requiredEnvVars = ['OPENAI_API_KEY', 'RESEND_API_KEY', 'MONGODB_URI'];
+    const requiredEnvVars = ['OPENAI_API_KEY'];
     const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
     
     if (missingVars.length > 0) {
@@ -163,9 +162,13 @@ async function main(): Promise<void> {
       process.exit(1);
     }
     
-    // Initialize Glen Agent
-    const glenAgent = new GlenAgent();
+    console.log(chalk.green('✅ Environment variables loaded successfully'));
+    
+    // Initialize Glen Agent (Simple Mode)
+    const glenAgent = new GlenAgentSimple();
     await glenAgent.initialize();
+    
+    console.log(chalk.green('✅ Glen AI Agent initialized successfully!'));
     
     // Show main menu
     await showMainMenu();
